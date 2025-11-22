@@ -29,6 +29,9 @@ const sessionOptions = {
     secret: process.env.SESSION_SECRET || "kambaz",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    }
 };
 
 if (process.env.NODE_ENV === "production") {  
@@ -36,7 +39,9 @@ if (process.env.NODE_ENV === "production") {
     sessionOptions.cookie = {
         sameSite: "none",
         secure: true,
-        domain: process.env.SERVER_URL,
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        // domain property removed - this was causing the issue
     };
 }
 
